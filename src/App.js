@@ -1,51 +1,37 @@
 import React, { useState } from 'react';
-import './App.css';
-import Home from './components/Home';
-import Order from './components/Order';
-import Settings from './components/Settings';
+import Catalog from './components/Catalog';
+import Cart from './components/Cart';
+import Profile from './components/Profile';
+import Orders from './components/Orders';
+import BottomNavigation from './components/BottomNavigation';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('home');
+  const [activeTab, setActiveTab] = useState('catalog');
 
-  const renderPage = () => {
-    switch(currentPage) {
-      case 'home':
-        return <Home />;
-      case 'order':
-        return <Order />;
-      case 'settings':
-        return <Settings />;
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'catalog':
+        return <Catalog />;
+      case 'cart':
+        return <Cart />;
+      case 'profile':
+        return <Profile />;
+      case 'orders':
+        return <Orders />;
       default:
-        return <Home />;
+        return <Catalog />;
     }
   };
 
   return (
-    <div className="App">
-      <main className="App-content">
-        {renderPage()}
+    <div className="min-h-screen bg-gray-100">
+      {/* Основной контент */}
+      <main className="pb-16">
+        {renderContent()}
       </main>
-      
-      <nav className="nav-bar">
-        <button 
-          className={`nav-button ${currentPage === 'home' ? 'active' : ''}`}
-          onClick={() => setCurrentPage('home')}
-        >
-          <i className="material-icons nav-icon">home</i>
-        </button>
-        <button 
-          className={`nav-button ${currentPage === 'order' ? 'active' : ''}`}
-          onClick={() => setCurrentPage('order')}
-        >
-          <i className="material-icons nav-icon">shopping_cart</i>
-        </button>
-        <button 
-          className={`nav-button ${currentPage === 'settings' ? 'active' : ''}`}
-          onClick={() => setCurrentPage('settings')}
-        >
-          <i className="material-icons nav-icon">settings</i>
-        </button>
-      </nav>
+
+      {/* Нижняя навигация */}
+      <BottomNavigation activeTab={activeTab} onTabChange={setActiveTab} />
     </div>
   );
 }
