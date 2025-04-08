@@ -1,16 +1,61 @@
 .App {
   text-align: center;
-}
-
-.App-header {
-  background-color: #ffffff;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+.App-content {
+  flex: 1;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+.page {
+  min-height: 100%;
+  padding: 20px;
+  animation: slideFade 0.3s ease-out;
+}
+
+@keyframes slideFade {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.nav-bar {
+  display: flex;
+  justify-content: space-around;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: #000000;
+  background-color: #ffffff;
+  border-top: 1px solid #e5e5e5;
+  padding: 10px 0;
+  position: sticky;
+  bottom: 0;
+}
+
+.nav-button {
+  border: none;
+  background: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-button.active {
+  background-color: #f0f0f0;
+  transform: scale(1.1);
+}
+
+.nav-icon {
+  font-size: 24px;
+  display: block;
 }
 
 .App-link {
