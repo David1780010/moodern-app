@@ -16,6 +16,28 @@
   min-height: 100%;
   padding: 20px;
   animation: slideFade 0.3s ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-content {
+  max-width: 600px;
+  width: 100%;
+  padding: 20px;
+}
+
+.page-content h1,
+.page-content h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.page-content p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  margin-bottom: 16px;
 }
 
 @keyframes slideFade {
@@ -35,7 +57,7 @@
   align-items: center;
   background-color: #ffffff;
   border-top: 1px solid #e5e5e5;
-  padding: 16px 0;
+  padding: 8px 0;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -47,26 +69,25 @@
 .nav-button {
   border: none;
   background: none;
-  padding: 12px 24px;
+  padding: 8px 0;
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
-  width: 80px;
-  height: 60px;
+  width: 70px;
+  height: 64px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
 .nav-button.active {
   background-color: #f0f0f0;
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .nav-icon {
   font-size: 32px;
-  display: block;
+  line-height: 1;
 }
 
 .App-link {
