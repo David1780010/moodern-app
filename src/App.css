@@ -78,6 +78,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #000;
 }
 
 .nav-button.active {
@@ -86,7 +87,7 @@
 }
 
 .nav-icon {
-  font-size: 32px;
+  font-size: 28px !important;
   line-height: 1;
 }
 

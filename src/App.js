@@ -31,19 +31,19 @@ function App() {
           className={`nav-button ${currentPage === 'home' ? 'active' : ''}`}
           onClick={() => setCurrentPage('home')}
         >
-          <i className="nav-icon">🏠</i>
+          <i className="material-icons nav-icon">home</i>
         </button>
         <button 
           className={`nav-button ${currentPage === 'order' ? 'active' : ''}`}
           onClick={() => setCurrentPage('order')}
         >
-          <i className="nav-icon">🛍️</i>
+          <i className="material-icons nav-icon">shopping_cart</i>
         </button>
         <button 
           className={`nav-button ${currentPage === 'settings' ? 'active' : ''}`}
           onClick={() => setCurrentPage('settings')}
         >
-          <i className="nav-icon">⚙️</i>
+          <i className="material-icons nav-icon">settings</i>
         </button>
       </nav>
     </div>
