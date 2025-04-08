@@ -1,45 +1,51 @@
 import React, { useEffect, useRef } from 'react';
 import lottie from 'lottie-web';
 
-function AnimatedSticker({ base64Data, width = 200, height = 200 }) {
+function AnimatedSticker() {
   const containerRef = useRef(null);
 
   useEffect(() => {
     let animation = null;
     
     if (containerRef.current) {
-      try {
-        // Декодируем base64 в JSON
-        const animationData = JSON.parse(atob(base64Data));
-        
-        // Создаем анимацию
-        animation = lottie.loadAnimation({
-          container: containerRef.current,
-          renderer: 'svg',
-          loop: true,
-          autoplay: true,
-          animationData
+      // Загружаем стикер из Telegram
+      fetch('https://raw.githubusercontent.com/telegram/tgstickers/main/stickers/Resistance/Resistance_01.tgs')
+        .then(response => response.arrayBuffer())
+        .then(buffer => {
+          const uint8Array = new Uint8Array(buffer);
+          return import('pako').then(pako => {
+            const decompressed = pako.inflate(uint8Array, { to: 'string' });
+            return JSON.parse(decompressed);
+          });
+        })
+        .then(animationData => {
+          animation = lottie.loadAnimation({
+            container: containerRef.current,
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            animationData
+          });
+        })
+        .catch(error => {
+          console.error('Ошибка при загрузке стикера:', error);
         });
-      } catch (error) {
-        console.error('Ошибка при загрузке стикера:', error);
-      }
     }
 
-    // Очищаем анимацию при размонтировании компонента
     return () => {
       if (animation) {
         animation.destroy();
       }
     };
-  }, [base64Data]);
+  }, []);
 
   return (
     <div 
       ref={containerRef} 
       style={{ 
-        width, 
-        height,
-        display: 'inline-block'
+        width: '200px', 
+        height: '200px',
+        margin: '0 auto'
       }} 
     />
   );
