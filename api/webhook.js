@@ -1,22 +1,45 @@
-const TelegramBot = require('node-telegram-bot-api');
+const https = require('https');
 
 const token = '7921918870:AAHbjorqQVBybUWqEs17ODhVznHhcSLm83w';
-const url = 'https://moodern-app.vercel.app';
-const bot = new TelegramBot(token, { webHook: { port: 443 } });
 
-// Этот объект будет хранить экземпляр бота
-let botInstance = null;
-
-// Функция для получения экземпляра бота
-function getBot() {
-  if (!botInstance) {
-    botInstance = new TelegramBot(token, {
-      webHook: {
-        port: 443
-      }
+async function sendTelegramMessage(chatId, text, options = {}) {
+  return new Promise((resolve, reject) => {
+    const data = JSON.stringify({
+      chat_id: chatId,
+      text: text,
+      ...options
     });
-  }
-  return botInstance;
+
+    const requestOptions = {
+      hostname: 'api.telegram.org',
+      port: 443,
+      path: `/bot${token}/sendMessage`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': data.length
+      }
+    };
+
+    const req = https.request(requestOptions, (res) => {
+      let responseData = '';
+
+      res.on('data', (chunk) => {
+        responseData += chunk;
+      });
+
+      res.on('end', () => {
+        resolve(JSON.parse(responseData));
+      });
+    });
+
+    req.on('error', (error) => {
+      reject(error);
+    });
+
+    req.write(data);
+    req.end();
+  });
 }
 
 module.exports = async (req, res) => {
@@ -39,20 +62,19 @@ module.exports = async (req, res) => {
       if (text === '/start') {
         const message = `Привет! 👋\n\nДобро пожаловать в moodern design studio!\n\nМы предлагаем следующие услуги:\n• *UI/UX-дизайн*\n• *Аватарки*\n• *Баннеры*\n• *Стикеры и эмодзи*`;
         
-        const opts = {
+        const options = {
           parse_mode: 'Markdown',
-          reply_markup: {
+          reply_markup: JSON.stringify({
             inline_keyboard: [
               [{ text: 'Open App', url: 'https://t.me/moodern_app/app' }]
             ]
-          }
+          })
         };
         
         try {
           console.log('Sending message to chat:', id);
-          const currentBot = getBot();
-          await currentBot.sendMessage(id, message, opts);
-          console.log('Message sent successfully');
+          const result = await sendTelegramMessage(id, message, options);
+          console.log('Message sent successfully:', result);
         } catch (sendError) {
           console.error('Error sending message:', sendError);
           throw sendError;
