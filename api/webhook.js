@@ -1,10 +1,16 @@
 const TelegramBot = require('node-telegram-bot-api');
 
 const token = '7921918870:AAHbjorqQVBybUWqEs17ODhVznHhcSLm83w';
-const bot = new TelegramBot(token);
+const url = 'https://moodern-app-david1780010.vercel.app';
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
+    if (req.method !== 'POST') {
+        res.status(200).json({ ok: true, message: 'This endpoint is alive' });
+        return;
+    }
+
     try {
+        const bot = new TelegramBot(token);
         const { body } = req;
         
         if (body.message && body.message.text === '/start') {
@@ -15,7 +21,7 @@ module.exports = async (req, res) => {
                     inline_keyboard: [[
                         {
                             text: '🎨 Открыть приложение',
-                            web_app: { url: 'https://moodern-app-david1780010.vercel.app' }
+                            web_app: { url }
                         }
                     ]]
                 }
@@ -27,4 +33,4 @@ module.exports = async (req, res) => {
         console.error('Error in webhook handler:', error);
         res.status(500).json({ ok: false, error: error.message });
     }
-}; 
+} 
